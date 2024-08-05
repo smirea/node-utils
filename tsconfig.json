@@ -8,7 +8,8 @@
         "isolatedModules": true,
         "useDefineForClassFields": true,
         "declaration": true,
+        "baseUrl": ".",
         "outDir": "dist",
     },
-    "include": ["src"],
+    "include": ["src/**/*.ts"],
 }
