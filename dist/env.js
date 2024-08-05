@@ -1,12 +1,15 @@
-export const isJest = process.env.JEST_WORKER_ID !== undefined;
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.env = exports.isJest = void 0;
+exports.isJest = process.env.JEST_WORKER_ID !== undefined;
 function getEnv(optional) {
     const error = (message) => {
-        if (!isJest)
+        if (!exports.isJest)
             throw new Error(message);
         console.warn(message);
         return null;
     };
-    return function env({ type, name, default: defaultValue, }) {
+    return function env(type, name, defaultValue) {
         let value = process.env[name];
         if (value == null || value === '')
             value = defaultValue;
@@ -32,4 +35,4 @@ function getEnv(optional) {
         }
     };
 }
-export const env = Object.assign(getEnv(false), { optional: getEnv(true) });
+exports.env = Object.assign(getEnv(false), { optional: getEnv(true) });

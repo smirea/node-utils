@@ -1,6 +1,9 @@
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.consoleSetup = consoleSetup;
 /* eslint-disable no-console */
-import * as util from 'util';
-export function consoleSetup({ ignoreErrors }) {
+const util = require("util");
+function consoleSetup({ ignoreErrors }) {
     const old = console.error.bind(console);
     const baseConsoleDir = console.dir.bind(console);
     console.error = (...args) => {

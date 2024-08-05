@@ -1,6 +1,8 @@
 export const isJest = process.env.JEST_WORKER_ID !== undefined;
 
-type GetType<T extends 'string' | 'number' | 'boolean' | 'int'> = T extends 'number' | 'int'
+type EnvTypes = 'string' | 'number' | 'boolean' | 'int';
+
+type GetType<T extends EnvTypes> = T extends 'number' | 'int'
     ? number
     : T extends 'string'
     ? string
@@ -14,15 +16,11 @@ function getEnv<Optional extends boolean>(optional: Optional) {
         console.warn(message);
         return null as any;
     };
-    return function env<T extends 'string' | 'number' | 'boolean' | 'int' = 'string'>({
-        type,
-        name,
-        default: defaultValue,
-    }: {
-        type?: T;
-        name: string;
-        default?: any;
-    }): Optional extends true ? GetType<T> | undefined : GetType<T> {
+    return function env<T extends EnvTypes = 'string'>(
+        type: T,
+        name: string,
+        defaultValue?: T
+    ): Optional extends true ? GetType<T> | undefined : GetType<T> {
         let value = process.env[name];
         if (value == null || value === '') value = defaultValue;
         if (value == null || value === '') {
