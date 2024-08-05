@@ -1,6 +1,12 @@
 "use strict";
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.env = exports.isJest = void 0;
+exports.setupDotenv = setupDotenv;
+const dotenv_1 = __importDefault(require("dotenv"));
+const path_1 = __importDefault(require("path"));
 exports.isJest = process.env.JEST_WORKER_ID !== undefined;
 function getEnv(optional) {
     const error = (message) => {
@@ -36,3 +42,8 @@ function getEnv(optional) {
     };
 }
 exports.env = Object.assign(getEnv(false), { optional: getEnv(true) });
+function setupDotenv(root) {
+    dotenv_1.default.config({ path: path_1.default.join(root, '.env.local') });
+    dotenv_1.default.config({ path: path_1.default.join(root, '.env.' + (process.env.NODE_ENV || 'development')) });
+    dotenv_1.default.config({ path: path_1.default.join(root, '.env') });
+}

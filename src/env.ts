@@ -1,3 +1,6 @@
+import dotenv from 'dotenv';
+import path from 'path';
+
 export const isJest = process.env.JEST_WORKER_ID !== undefined;
 
 type EnvTypes = 'string' | 'number' | 'boolean' | 'int';
@@ -46,3 +49,9 @@ function getEnv<Optional extends boolean>(optional: Optional) {
 }
 
 export const env = Object.assign(getEnv(false), { optional: getEnv(true) });
+
+export function setupDotenv(root: string) {
+    dotenv.config({ path: path.join(root, '.env.local') });
+    dotenv.config({ path: path.join(root, '.env.' + (process.env.NODE_ENV || 'development')) });
+    dotenv.config({ path: path.join(root, '.env') });
+}

@@ -4,4 +4,5 @@ type GetType<T extends EnvTypes> = T extends 'number' | 'int' ? number : T exten
 export declare const env: (<T extends EnvTypes = "string">(type: T, name: string, defaultValue?: T | undefined) => false extends true ? GetType<T> | undefined : GetType<T>) & {
     optional: <T extends EnvTypes = "string">(type: T, name: string, defaultValue?: T | undefined) => true extends true ? GetType<T> | undefined : GetType<T>;
 };
+export declare function setupDotenv(root: string): void;
 export {};

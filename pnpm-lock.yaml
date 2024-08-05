@@ -8,6 +8,9 @@ dependencies:
   '@types/node':
     specifier: ^22.1.0
     version: 22.1.0
+  dotenv:
+    specifier: '>= 16.0.0'
+    version: 16.4.5
 
 devDependencies:
   typescript:
@@ -20,6 +23,11 @@ packages:
     resolution: {integrity: sha512-AOmuRF0R2/5j1knA3c6G3HOk523Ga+l+ZXltX8SF1+5oqcXijjfTd8fY3XRZqSihEu9XhtQnKYLmkFaoxgsJHw==}
     dependencies:
       undici-types: 6.13.0
+    dev: false
+
+  /dotenv@16.4.5:
+    resolution: {integrity: sha512-ZmdL2rui+eB2YwhsWzjInR8LldtZHGDoQ1ugH85ppHKwpUHL7j7rN0Ti9NCnGiQbhaZ11FpR+7ao1dNsmduNUg==}
+    engines: {node: '>=12'}
     dev: false
 
   /typescript@5.5.3:
