@@ -11,10 +11,12 @@ type GetType<T extends EnvTypes> = T extends 'number' | 'int'
     ? string
     : T extends 'boolean'
     ? boolean
-    : 123;
+    : never;
+
+export const envNamesUsed: Record<string, any> = {};
 
 function getEnv<Optional extends boolean>(optional: Optional) {
-    const error = (message: string) => {
+    const error = (message: any) => {
         if (!isJest) throw new Error(message);
         console.warn(message);
         return null as any;
@@ -22,10 +24,11 @@ function getEnv<Optional extends boolean>(optional: Optional) {
     return function env<T extends EnvTypes = 'string'>(
         type: T,
         name: string,
-        defaultValue?: T
+        defaultValue?: GetType<T>
     ): Optional extends true ? GetType<T> | undefined : GetType<T> {
         let value = process.env[name];
-        if (value == null || value === '') value = defaultValue;
+        envNamesUsed[name] = value;
+        if (value == null || value === '') value = defaultValue as typeof value;
         if (value == null || value === '') {
             if (optional) return undefined as any;
             return error(`process.env.${name} is empty`);
@@ -51,6 +54,11 @@ function getEnv<Optional extends boolean>(optional: Optional) {
 export const env = Object.assign(getEnv(false), { optional: getEnv(true) });
 
 export function setupDotenv(root: string) {
+    if (process.env.ENV_FILE) {
+        let p = process.env.ENV_FILE;
+        if (!p.startsWith('/')) p = path.join(root, p);
+        dotenv.config({ path: p });
+    }
     dotenv.config({ path: path.join(root, '.env.local') });
     dotenv.config({ path: path.join(root, '.env.' + (process.env.NODE_ENV || 'development')) });
     dotenv.config({ path: path.join(root, '.env') });
